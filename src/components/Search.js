@@ -12,7 +12,7 @@ class Search extends Component {
     searchItem: "",
     images: [],
     url: "https://images-api.nasa.gov/search?q=",
-    mediaType: ""
+    mediaType: "images"
   };
 
   handleChange = e => {
@@ -24,7 +24,6 @@ class Search extends Component {
         )
         .then(res => {
           this.setState({ images: res.data.collection.items });
-          console.log(res.data.collection.items);
         })
         .catch(err => console.log(err));
     });
@@ -40,7 +39,6 @@ class Search extends Component {
         )
         .then(res => {
           this.setState({ images: res.data.collection.items });
-          //console.log(res.data.collection.items);
         })
         .catch(err => console.log(err));
     });

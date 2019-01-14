@@ -7,7 +7,10 @@ class ImageResults extends Component {
 
     let imageResultCount;
 
-    //console.log(imageResultCount);
+    for (let i = 0; i < images.length; i++) {
+      let obj = images[i].links[i].href;
+      console.log(obj);
+    }
 
     return <div>{imageResultCount}</div>;
   }
