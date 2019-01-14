@@ -5,14 +5,24 @@ class ImageResults extends Component {
   render() {
     const { images } = this.props;
 
-    let imageResultCount;
+    let output = "";
+    let img = [];
 
-    for (let i = 0; i < images.length; i++) {
-      let obj = images[i].links[i].href;
-      console.log(obj);
+    for (let i = 0; i < 1; i++) {
+      img = (
+        <div>
+          <img src={images[i].links[i].href} alt="" />
+        </div>
+      );
     }
 
-    return <div>{imageResultCount}</div>;
+    console.log(images[0].links[0].href);
+
+    return (
+      <div>
+        {output} {img}
+      </div>
+    );
   }
 }
 

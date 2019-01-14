@@ -12,14 +12,14 @@ class Search extends Component {
     searchItem: "",
     images: [],
     url: "https://images-api.nasa.gov/search?q=",
-    mediaType: "images"
+    mediaType: "image"
   };
 
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value }, () => {
       axios
         .get(
-          `${this.state.url}${this.state.searchItem}
+          `${this.state.url}${this.state.searchItem}&media_type=image
           `
         )
         .then(res => {
