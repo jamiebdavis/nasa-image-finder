@@ -1,23 +1,43 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { TextField, FormControlLabel, Checkbox } from "@material-ui/core";
+import {
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Button
+} from "@material-ui/core";
 import ImageResult from "../ImageResult/ImageResult";
 
 class Search extends Component {
   state = {
-    seachItem: "",
-    images: []
+    searchItem: "",
+    images: [],
+    mediaTypeImage: false,
+    mediaTypeAudio: false
   };
 
   componentDidMount() {
-    this.handleImageSearch();
+    //this.handleImageSearch();
   }
+
+  handleSubmit = e => {
+    this.handleImageSearch();
+    e.preventDefault();
+  };
 
   handleImageSearch = () => {
     axios
-      .get("https://images-api.nasa.gov/search?q=moon")
+      .get(`https://images-api.nasa.gov/search?q=${this.state.searchItem}`)
       .then(res => this.setState({ images: res.data.collection.items }))
       .catch(err => console.log(err));
+  };
+
+  handlesearchItem = e => {
+    this.setState({ searchItem: e.target.value });
+  };
+
+  handleChange = e => {
+    this.setState({ [e.target.value]: e.target.checked });
   };
 
   render() {
@@ -35,21 +55,38 @@ class Search extends Component {
     return (
       <div>
         <TextField
-          id="standard-name"
+          id="searchItem"
           label="Search For..."
           fullWidth={true}
-          value={this.state.name}
+          value={this.state.searchItem}
           margin="normal"
+          onChange={this.handlesearchItem}
         />
         <FormControlLabel
-          control={<Checkbox checked={true} color="primary" />}
+          control={
+            <Checkbox
+              checked={this.state.mediaTypeImage}
+              onChange={this.handleChange}
+              value="mediaTypeImage"
+            />
+          }
           label="Image"
         />
         <FormControlLabel
-          control={<Checkbox checked={false} color="primary" />}
-          label="Video"
+          control={
+            <Checkbox
+              checked={this.state.mediaTypeAudio}
+              onChange={this.handleChange}
+              value="mediaTypeAudio"
+            />
+          }
+          label="Audio"
         />
-
+        <br />
+        <Button variant="contained" color="primary" onClick={this.handleSubmit}>
+          Search
+        </Button>
+        <br />
         {imageResults}
       </div>
     );

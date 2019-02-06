@@ -27,6 +27,7 @@ const ImageResult = props => {
           title={props.title}
         />
         <img src={props.image} />
+
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {props.title}
