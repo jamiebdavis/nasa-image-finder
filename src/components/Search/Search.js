@@ -4,9 +4,12 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Button
+  Button,
+  GridListTile,
+  GridListTileBar,
+  GridList
 } from "@material-ui/core";
-import ImageResult from "../ImageResult/ImageResult";
+import ImageCard from "../Dialogs/Dialog";
 
 class Search extends Component {
   state = {
@@ -26,8 +29,20 @@ class Search extends Component {
   };
 
   handleImageSearch = () => {
+    let mediaType = null;
+
+    if (this.state.mediaTypeImage && this.state.mediaTypeAudio) {
+      mediaType = "&media_type=image,audio";
+    } else {
+      mediaType = "&media_type=image";
+    }
+
     axios
-      .get(`https://images-api.nasa.gov/search?q=${this.state.searchItem}`)
+      .get(
+        `https://images-api.nasa.gov/search?q=${
+          this.state.searchItem
+        }${mediaType}`
+      )
       .then(res => this.setState({ images: res.data.collection.items }))
       .catch(err => console.log(err));
   };
@@ -43,12 +58,17 @@ class Search extends Component {
   render() {
     const imageResults = this.state.images.map(image => {
       return (
-        <ImageResult
-          key={image.data[0].nasa_id}
-          title={image.data[0].title}
-          description={image.data[0].description}
-          image={image.links[0].href}
-        />
+        <GridListTile key={image.data[0].nasa_id}>
+          <img src={image.links[0].href} alt={image.data[0].title} />
+          <GridListTileBar
+            title={image.data[0].title}
+            subtitle={
+              <span>
+                Date Created: {image.data[0].date_created.slice(0, 10)}
+              </span>
+            }
+          />
+        </GridListTile>
       );
     });
 
@@ -87,7 +107,10 @@ class Search extends Component {
           Search
         </Button>
         <br />
-        {imageResults}
+
+        <GridList cellHeight={300} cols={3} spacing={10}>
+          {imageResults}
+        </GridList>
       </div>
     );
   }
