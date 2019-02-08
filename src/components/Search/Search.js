@@ -9,7 +9,7 @@ import {
   GridListTileBar,
   GridList
 } from "@material-ui/core";
-import ImageCard from "../Dialogs/Dialog";
+import AlertDialog from "../AlertDialog/AlertDialog";
 
 class Search extends Component {
   state = {
@@ -18,10 +18,6 @@ class Search extends Component {
     mediaTypeImage: false,
     mediaTypeAudio: false
   };
-
-  componentDidMount() {
-    //this.handleImageSearch();
-  }
 
   handleSubmit = e => {
     this.handleImageSearch();
@@ -66,6 +62,13 @@ class Search extends Component {
               <span>
                 Date Created: {image.data[0].date_created.slice(0, 10)}
               </span>
+            }
+            actionIcon={
+              <AlertDialog
+                title={image.data[0].title}
+                description={image.data[0].description}
+                image={image.links[0].href}
+              />
             }
           />
         </GridListTile>
